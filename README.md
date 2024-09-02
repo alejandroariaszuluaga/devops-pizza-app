@@ -10,9 +10,9 @@ b. A text area for comments or special instructions.
 should display the type of pizza ordered and any comments associated with the order.
 
 ## Required CLI tools:
-- Docker
-- Minikube
-- 
+- Docker [1]
+- Minikube [2]
+- Kubectl [3]
 
 ## Running Container Locally
 
@@ -25,7 +25,7 @@ docker run -p 8000:8000 django-pizza-app
 
 ## Running on Minikube
 
-For this initial setup, Minikube [1] was selected to run this application locally. Any other Kubernetes provider can be used (EKS, GKE, ...) if decided to move to a Production workload.
+For this initial setup, Minikube [2] was selected to run this application locally. Any other Kubernetes provider can be used (EKS, GKE, ...) if decided to move to a Production workload.
 
 1. Install the Minikube CLI tool, for MacOS run:
 ```shell
@@ -60,6 +60,7 @@ Now there are two options to run this test, if any local testing is needed, the 
 
     4. Set `k8s/deployment.yaml` `image` value to: `localhost:5000/django-pizza-app:latest`
 
+
 3. B Use DockerHub image
 
     1. Make an update on one of the following directories: `pizza_app` or `orders`, or on the `Dockefile`, make a PR and once merged it will trigger a CI pipeline that will build and push the image to `alejandroariaszuluaga/django-pizza-app` DockerHub.
@@ -84,4 +85,6 @@ kubectl port-forward svc/django-pizza-app-service 8000:8000
 
 
 # References
+1. https://www.docker.com/products/cli/
 1. https://minikube.sigs.k8s.io/docs/
+1. https://kubernetes.io/docs/tasks/tools/
