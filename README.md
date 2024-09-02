@@ -89,7 +89,11 @@ kubectl port-forward svc/django-pizza-app-service 8000:8000
 
 Two workflows were developed for this application that can be found at `.github/workflows`:
 1. Lint: `lint.yaml` runs two flake8 recommended initial checks that can be tweaked according to the user's requirements. Triggered whenever a new Pull Request is open and checks all Python syntax.
-1. CI for Docker image: `ci.yaml` runs a Docker build and push against the corresponding DockerHub repository. It uses two secrets stored at this repository's configs:  `DOCKER_HUB_USERNAME` and `DOCKER_HUB_ACCESS_TOKEN` to get Read/Write access to the DockerHub.
+1. CI for Docker image: `ci.yaml` runs a Docker build and push against the corresponding DockerHub repository. It uses two secrets stored at this repository's configs:  `DOCKER_HUB_USERNAME` and `DOCKER_HUB_ACCESS_TOKEN` to get Read/Write access to the DockerHub. Triggered whenever there are changes in any of the Python files or on the Dockerfile
+
+
+## Possible Improvements
+Implement CD components such as an ArgoCD configuration where ArgoCD monitors and handles the GitOps side of this application: `k8s/` directory and its files. Also, this current app was deployed to Minikube, which is a very useful tool when testing and learning about Kubernetes, but it is always recommended to deploy an app to a Cloud-based Kubernetes cluster provider such as EKS. For infrastructure such as that, any form of Infrastructure as Code will be required (Terraform, CloudFormation, CDK...), which will also require a new pipeline definition to handle that side of Cloud infrastructure GitOps.
 
 
 # References
