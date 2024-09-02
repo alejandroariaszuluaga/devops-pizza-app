@@ -40,32 +40,34 @@ eval $(minikube docker-env)
 
 Now there are two options to run this test, if any local testing is needed, the Minikube registry can be used
 
-3. A Deploy image locally to Minikube registry
+3. Deploy Docker image
 
-    1. Enable Minikube Registry add-on:
-    ```shell
-    minikube addons enable registry
-    ```
+    1. Deploy image locally to Minikube registry
 
-    2. Build Docker image:
-    ```shell
-    docker build -t django-pizza-app .
-    ```
+        1. Enable Minikube Registry add-on:
+        ```shell
+        minikube addons enable registry
+        ```
 
-    3. Tag and push the image to Minikube:
-    ```shell
-    docker tag django-pizza-app:latest localhost:5000/django-pizza-app:latest
-    docker push localhost:5000/django-pizza-app:latest
-    ```
+        2. Build Docker image:
+        ```shell
+        docker build -t django-pizza-app .
+        ```
 
-    4. Set `k8s/deployment.yaml` `image` value to: `localhost:5000/django-pizza-app:latest`
+        3. Tag and push the image to Minikube:
+        ```shell
+        docker tag django-pizza-app:latest localhost:5000/django-pizza-app:latest
+        docker push localhost:5000/django-pizza-app:latest
+        ```
+
+        4. Set `k8s/deployment.yaml` `image` value to: `localhost:5000/django-pizza-app:latest`
 
 
-3. B Use DockerHub image
+    1. B Use DockerHub image
 
-    1. Make an update on one of the following directories: `pizza_app` or `orders`, or on the `Dockefile`, make a PR and once merged it will trigger a CI pipeline that will build and push the image to `alejandroariaszuluaga/django-pizza-app` DockerHub.
+        1. Make an update on one of the following directories: `pizza_app` or `orders`, or on the `Dockefile`, make a PR and once merged it will trigger a CI pipeline that will build and push the image to `alejandroariaszuluaga/django-pizza-app` DockerHub.
 
-    2. Set `k8s/deployment.yaml` `image` value to: `alejandroariaszuluaga/django-pizza-app:latest`
+        2. Set `k8s/deployment.yaml` `image` value to: `alejandroariaszuluaga/django-pizza-app:latest`
 
 
 
