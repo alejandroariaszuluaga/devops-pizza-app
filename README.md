@@ -88,7 +88,7 @@ kubectl port-forward svc/django-pizza-app-service 8000:8000
 ## CI Jobs
 
 Two workflows were developed for this application that can be found at `.github/workflows`:
-1. Lint: `lint.yaml` runs two flake8 recommended initial checks that can be tweaked according to the user's requirements. Runs when a new Pull Request is open and checks all Python syntax.
+1. Lint: `lint.yaml` runs two flake8 recommended initial checks that can be tweaked according to the user's requirements. Triggered whenever a new Pull Request is open and checks all Python syntax.
 1. CI for Docker image: `ci.yaml` runs a Docker build and push against the corresponding DockerHub repository. It uses two secrets stored at this repository's configs:  `DOCKER_HUB_USERNAME` and `DOCKER_HUB_ACCESS_TOKEN` to get Read/Write access to the DockerHub.
 
 
