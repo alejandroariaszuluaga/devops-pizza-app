@@ -38,9 +38,9 @@ minikube
 eval $(minikube docker-env)
 ```
 
-Now there are two options to run this test, if any local testing is needed, the Minikube registry can be used
 
-3. Deploy Docker image
+
+3. Deploy Docker image with either one of the following two options, if any local testing is needed, the Minikube registry can be used before making any updates on the currently DockerHub [4] hosted image.
 
     1. Deploy image locally to Minikube registry
 
@@ -63,7 +63,7 @@ Now there are two options to run this test, if any local testing is needed, the 
         4. Set `k8s/deployment.yaml` `image` value to: `localhost:5000/django-pizza-app:latest`
 
 
-    1. B Use DockerHub image
+    1. Use DockerHub image [5]
 
         1. Make an update on one of the following directories: `pizza_app` or `orders`, or on the `Dockefile`, make a PR and once merged it will trigger a CI pipeline that will build and push the image to `alejandroariaszuluaga/django-pizza-app` DockerHub.
 
@@ -85,8 +85,14 @@ kubectl port-forward svc/django-pizza-app-service 8000:8000
 6. Access the app through your local browser at http://localhost:8000/
 
 
+## CI Jobs
+
+
+
 
 # References
 1. https://www.docker.com/products/cli/
 1. https://minikube.sigs.k8s.io/docs/
 1. https://kubernetes.io/docs/tasks/tools/
+1. https://hub.docker.com/
+1. https://hub.docker.com/repository/docker/alejandroariaszuluaga/django-pizza-app/general
