@@ -6,6 +6,7 @@ on:
       - '**/Dockerfile'
       - 'pizza_app/**'
       - 'orders/**'
+      - '**/*.py'
     branches:
       - main
 

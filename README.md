@@ -10,9 +10,9 @@ b. A text area for comments or special instructions.
 should display the type of pizza ordered and any comments associated with the order.
 
 ## Required CLI tools:
-- Docker
-- Minikube
-- 
+- Docker [1]
+- Minikube [2]
+- Kubectl [3]
 
 ## Running Container Locally
 
@@ -25,7 +25,7 @@ docker run -p 8000:8000 django-pizza-app
 
 ## Running on Minikube
 
-For this initial setup, Minikube [1] was selected to run this application locally. Any other Kubernetes provider can be used (EKS, GKE, ...) if decided to move to a Production workload.
+For this initial setup, Minikube [2] was selected to run this application locally. Any other Kubernetes provider can be used (EKS, GKE, ...) if decided to move to a Production workload.
 
 1. Install the Minikube CLI tool, for MacOS run:
 ```shell
@@ -34,37 +34,40 @@ brew install minikube
 
 2. Start and activate Minikube env, this will also point your local `kubectl` profile to the Minikube cluster:
 ```shell
-minikube 
+minikube start
 eval $(minikube docker-env)
 ```
 
-Now there are two options to run this test, if any local testing is needed, the Minikube registry can be used
 
-3. A Deploy image locally to Minikube registry
 
-    1. Enable Minikube Registry add-on:
-    ```shell
-    minikube addons enable registry
-    ```
+3. Deploy Docker image with either one of the following two options, if any local testing is needed, the Minikube registry can be used before making any updates on the currently DockerHub [4] hosted image.
 
-    2. Build Docker image:
-    ```shell
-    docker build -t django-pizza-app .
-    ```
+    1. Deploy image locally to Minikube registry
 
-    3. Tag and push the image to Minikube:
-    ```shell
-    docker tag django-pizza-app:latest localhost:5000/django-pizza-app:latest
-    docker push localhost:5000/django-pizza-app:latest
-    ```
+        1. Enable Minikube Registry add-on:
+        ```shell
+        minikube addons enable registry
+        ```
 
-    4. Set `k8s/deployment.yaml` `image` value to: `localhost:5000/django-pizza-app:latest`
+        2. Build Docker image:
+        ```shell
+        docker build -t django-pizza-app .
+        ```
 
-3. B Use DockerHub image
+        3. Tag and push the image to Minikube:
+        ```shell
+        docker tag django-pizza-app:latest localhost:5000/django-pizza-app:latest
+        docker push localhost:5000/django-pizza-app:latest
+        ```
 
-    1. Make an update on one of the following directories: `pizza_app` or `orders`, or on the `Dockefile`, make a PR and once merged it will trigger a CI pipeline that will build and push the image to `alejandroariaszuluaga/django-pizza-app` DockerHub.
+        4. Set `k8s/deployment.yaml` `image` value to: `localhost:5000/django-pizza-app:latest`
 
-    2. Set `k8s/deployment.yaml` `image` value to: `alejandroariaszuluaga/django-pizza-app:latest`
+
+    1. Use DockerHub image [5]
+
+        1. Make an update on one of the following directories: `pizza_app` or `orders`, or on the `Dockefile`, make a PR and once merged it will trigger a CI pipeline that will build and push the image to `alejandroariaszuluaga/django-pizza-app` DockerHub.
+
+        2. Set `k8s/deployment.yaml` `image` value to: `alejandroariaszuluaga/django-pizza-app:latest`
 
 
 
@@ -82,6 +85,20 @@ kubectl port-forward svc/django-pizza-app-service 8000:8000
 6. Access the app through your local browser at http://localhost:8000/
 
 
+## CI Jobs
+
+Two workflows were developed for this application that can be found at `.github/workflows`:
+1. Lint: `lint.yaml` runs two flake8 recommended initial checks that can be tweaked according to the user's requirements. Triggered whenever a new Pull Request is open and checks all Python syntax.
+1. CI for Docker image: `ci.yaml` runs a Docker build and push against the corresponding DockerHub repository. It uses two secrets stored at this repository's configs:  `DOCKER_HUB_USERNAME` and `DOCKER_HUB_ACCESS_TOKEN` to get Read/Write access to the DockerHub. Triggered whenever there are changes in any of the Python files or on the Dockerfile
+
+
+## Possible Improvements
+Implement CD components such as an ArgoCD configuration where ArgoCD monitors and handles the GitOps side of this application: `k8s/` directory and its files. Also, this current app was deployed to Minikube, which is a very useful tool when testing and learning about Kubernetes, but it is always recommended to deploy an app to a Cloud-based Kubernetes cluster provider such as EKS. For infrastructure such as that, any form of Infrastructure as Code will be required (Terraform, CloudFormation, CDK...), which will also require a new pipeline definition to handle that side of Cloud infrastructure GitOps.
+
 
 # References
+1. https://www.docker.com/products/cli/
 1. https://minikube.sigs.k8s.io/docs/
+1. https://kubernetes.io/docs/tasks/tools/
+1. https://hub.docker.com/
+1. https://hub.docker.com/repository/docker/alejandroariaszuluaga/django-pizza-app/general
