@@ -25,5 +25,7 @@ jobs:
 
     - name: Run Flake8 Linter
       run: |
+        # Syntax errors, undefined names, and other critical issues
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Code complexity and line length but allows other types of lint errors
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=100 --statistics
