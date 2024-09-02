@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-pizza-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-pizza-app
+  template:
+    metadata:
+      labels:
+        app: django-pizza-app
+    spec:
+      containers:
+        - name: django-pizza-app
+          image: localhost:5000/django-pizza-app:latest # Configured to use Minikube's registry, can be updated by any image registry
+          ports:
+          - containerPort: 8000
