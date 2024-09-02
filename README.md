@@ -85,6 +85,14 @@ kubectl port-forward svc/django-pizza-app-service 8000:8000
 6. Access the app through your local browser at http://localhost:8000/
 
 
+## Kubernetes Objects
+
+There are two main Kubernetes objects here:
+1. Deployment: determines how the application will be deployed by defining physical Memory+CPU resource requests/limits, as well as how many containers (pods) will be deployed by defining a replica count.
+
+2. Service: exposes the application pods through the same service IP, and allows networking being simplified by making it possible to route requests to the service without having to access the IP address of the pod resource.
+
+
 ## CI Jobs
 
 Two workflows were developed for this application that can be found at `.github/workflows`:

@@ -18,3 +18,10 @@ spec:
           # image: localhost:5000/django-pizza-app:latest # Minikube local registry
           ports:
           - containerPort: 8000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
